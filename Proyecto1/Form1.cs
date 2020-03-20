@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,15 +25,25 @@ namespace Proyecto1
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private string texto;
         static ArrayList listaToken = new ArrayList();
+        static ArrayList listaExpresion = new ArrayList();
         static ArrayList listaerror = new ArrayList();
         private string path;
         private int contError = 0;
         private int contToken = 1;
         int no = 1;
-       
+        int noExp = 1;
 
+         grafo grap;
+         nodo mensajeNo;
+        nodo inicial, final;
+        int contador;
 
-        
+        public static string cuerpo="";
+        public static int estados;
+        //string [] vector;
+        List<string> vecto = new List<string>();
+        //vector= new string[100];
+        int cont = 0;
 
 
         public Form1()
@@ -62,7 +74,7 @@ namespace Proyecto1
             char comillas = '"';
 
             string exp = "";
-            int noExp = 0;
+            
 
 
 
@@ -235,12 +247,8 @@ namespace Proyecto1
                                 estadoMover = 4;
                                 break;
                             case '”':
-                                 //Console.WriteLine(letra+"entra");
-                                
                                 letra = comillas;
-                                // Console.WriteLine(letra+"cambio");
                                 token += letra;
-                                // Console.WriteLine(token+"sale primer caso");
                                 estadoMover = 4;
                                 break;
                             default:
@@ -248,7 +256,6 @@ namespace Proyecto1
                                 {
                                     token += letra;
                                     estadoMover = 3;
-                                    //estado = estado - 1;
                                 }
                                 else if (Char.IsLetter(letra))
                                 {
@@ -305,9 +312,10 @@ namespace Proyecto1
                             columna++;
                             if ((expresion == 1)&&(expresion2==1)) {
                                 AnalizarToken(exp, fila, columna, "EXPRESION");
+                                AnalizarExpresion(exp, fila, columna, "EXPRESION");
                                 noExp++;
-                                AnalizarExpresion(noExp, exp, fila, columna, "EXPRESION");
-                                Console.Write(noExp + exp);
+                                //AnalizarExpresion(noExp, exp, fila, columna, "EXPRESION");
+                                //Console.WriteLine(noExp + exp);
                             }
                             AnalizarToken(token, fila, columna, "PUNTO Y COMA");
                             expresion = 0;
@@ -347,7 +355,6 @@ namespace Proyecto1
                         }
                         else if (token.Equals("."))
                         {
-                            
                             columna++;
                             AnalizarToken(token, fila, columna, "CONCATENACION");
                             token = "";
@@ -355,7 +362,6 @@ namespace Proyecto1
                         }
                         else if (token.Equals("*"))
                         {
-                            
                             columna++;
                             AnalizarToken(token, fila, columna, "CERRADURA *");
                             token = "";
@@ -363,7 +369,6 @@ namespace Proyecto1
                         }
                         else if (token.Equals("+"))
                         {
-                            
                             columna++;
                             AnalizarToken(token, fila, columna, "CERRADURA +");
                             token = "";
@@ -371,7 +376,6 @@ namespace Proyecto1
                         }
                         else if (token.Equals("|"))
                         {
-                           
                             columna++;
                             AnalizarToken(token, fila, columna, "DISYUNCION");
                             token = "";
@@ -379,7 +383,6 @@ namespace Proyecto1
                         }
                         else if (token.Equals("?"))
                         {
-                           
                             columna++;
                             AnalizarToken(token, fila, columna, "CERRADURA ?");
                             token = "";
@@ -423,7 +426,6 @@ namespace Proyecto1
                             {
                                 palabra = token;
                                 contadorPalabra = 0;
-                                Console.WriteLine("Reservada" + contadorPalabra);
                             }
                             else 
                             {
@@ -447,43 +449,31 @@ namespace Proyecto1
                                 estadoMover = 5;
                                 palabra = "";
                             }
-                            
-
                         }
                         break;
                     case 4:
                         if (letra == '”')
                         {
                             letra = '"';
-
                         }
-
-                        // if ((letra !='"') || (letra != '”'))
                         if (letra != '"')
                         {
-                            // Console.WriteLine(letra+"letra");
-                           // exp += letra;
+
                             token += letra;
                         }
-                        // else if ((letra == '"')||(letra == '”'))
                         else if (letra == '"')
                         {
-                            // Console.WriteLine("caso 4"+letra);
                             estado = estado - 1;
-                          // exp += letra;
                             estadoMover = 5;
                         }
                         break;
                     case 5:
                         if (contadorPalabra == 0)
                         {
-                            Console.WriteLine("cadena " + token);
-                            columna++;
+                             columna++;
                             exp += token;
                             exp += "\"";
                             AnalizarToken(token + "\"", fila, columna, "CADENA");
-
-                            //  Console.WriteLine(token+ "kaska");
                             token = "";
                             estadoMover = 0;
                         }
@@ -510,7 +500,6 @@ namespace Proyecto1
                             {
                                 AnalizarToken(token, fila, columna, "CONJUNTO");
                                 contadorPalabra = 0;
-                               // expresion = 0;
                                 conjunto = 0;
                                 token = "";
                                 palabra = "";
@@ -542,17 +531,7 @@ namespace Proyecto1
                         }
                        
                         break;
-                    case 6:
-                        if ((letra == '<'))
-                        {
-                            estadoMover = 7;
-                        }
-
-                        break;
-                    case 7:
-                        estadoMover = 7;
-                        break;
-
+                                  
                     case 8:
                         columna++;
                         Errores(token += letra, fila, columna);
@@ -560,19 +539,643 @@ namespace Proyecto1
                         token = "";
                         estadoMover = 0;
                         break;
-                    case 9:
-                        estadoMover = 10;
-                        break;
-                    case 10:
-
-                        break;
+                    
                 }
             }
 
         }
-        public void AnalizarExpresion(int no, string token, int fila, int columna, string tipo)
+        public void AnalizarExpresion( string token, int fila, int columna, string tipo)
         {
-            
+            if (tipo.Equals("EXPRESION"))
+            {
+                listaExpresion.Add(new Expresiones(noExp, 1, token, tipo, fila, columna));
+ 
+            }
+                Console.WriteLine("EXP " +" "+ noExp.ToString() + " " + 1 + " " + token + " " + tipo + " " + fila + " " + columna);
+        }
+        public void Analizador2()
+        {
+            int estadoMover = 0 ;
+            char letra;
+            string token = "";
+            int columna = 0;
+            int fila = 1;
+            string palabra = "";
+            string nombre = "";
+            string comparar = "";
+            string tipo = "";
+            foreach (Expresiones i in listaExpresion)
+            {
+                nombre = i.Lexema;
+                tipo = i.Tipo;
+                switch (estadoMover)
+                {
+
+
+                }
+            }           
+        }
+        private void PalabrasReservadas(string token, int fila, int columna, int inicio)
+        {
+            string nombre = "";
+            bool uno = false;
+            for (int i = 0; i < Reservadas.Length; i++)
+            {
+                nombre = Reservadas[i];
+                if (token.ToLower().Equals(nombre))
+                {
+                    i = Reservadas.Length + 1;
+                    uno = true;
+                }
+            }
+            if (uno == true)
+            {
+                AnalizarToken(token, fila, columna, "RESERVADA");
+            }
+            else if (uno == false)
+            {
+                Errores(token, fila, columna);
+            }
+        }
+        public void obtenerRuta()
+        {
+
+            var ods = new Token();
+            string[] arrayElementos = rutas.ToArray();
+            for (int i = 0; i < contadorRutas; i++)
+            {
+
+
+                char[] caracteres = arrayElementos[i].ToCharArray();
+
+
+                for (int h = 0; h < caracteres.Length; h++)
+                {
+
+
+                    // if (Char.IsLetter(caracteres[h]))
+                    if (caracteres[h] != '"')
+                    {
+                        auxlex += caracteres[h];
+
+                    }
+                }
+
+                root.Add(auxlex);
+
+                auxlex = "";
+            }
+        }
+        public void enviarExpresion()
+        {
+            foreach (Expresiones i in listaExpresion)
+            {
+                string enviar = i.Lexema;
+                Analizador3(enviar);
+               // Console.WriteLine(enviar);
+            }
+
+        }
+        public void recibeExpresiones()
+        {
+            string[] vector = vecto.ToArray();
+            string aux,aux2,aux3,aux4,aux5,aux6;
+            int estados = 0;
+            int estadoIni=0;
+            int estadoFin = 1;
+            for (int i = 0; i < vector.Length; i++)
+            {
+                if (vector[i] != ".") { 
+                string[] vector2 = vecto.ToArray();
+                }
+            }
+                for (int i = 0; i < vector.Length; i++)
+            {
+                Console.WriteLine(vector[i] + i);
+                if (vector[i].Equals("."))
+                {
+                    estados++;
+                    estadoIni = estadoFin;
+                    estadoFin = estadoFin + 2;
+                    Console.WriteLine(estadoIni+" ini"+estadoFin+" fin");
+                    aux = "\"" + estadoIni + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + vector[i + 1] + "\"" + "];\n\n";
+                    estados++;
+                    aux2 = "\"" + (estados) + "\"" + " -> " + "\"" + (estadoFin) + "\"" + "[label=" + "\"" + vector[i + 2] + "\"" + "];\n\n";
+                    estados++;
+                    Console.WriteLine(aux);
+                    Console.WriteLine(aux2);
+                    cuerpo += aux;
+                    cuerpo += aux2;
+                    aux = "";
+                    aux2 = "";
+                }
+                else if (vector[i].Equals("|"))
+                {
+                    estadoIni = estadoFin;
+                    estadoFin = estadoFin + 3;
+                    Console.WriteLine(estadoIni + " ini" + estadoFin + " fin");
+                    //  estados++;
+                    // aux = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + vector[i + 1] + "\"" + "];\n\n";
+                    aux = "\"" + (estadoIni) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    estados++;
+                    aux2 = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + vector[i + 1] + "\"" + "];\n\n";
+                    estados++;
+                    aux3 = "\"" + (estados) + "\"" + " -> " + "\"" + (estadoFin) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    estados++;
+                    aux4 = "\"" + (estados - 3) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    estados++;
+                    aux5 = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + vector[i + 2] + "\"" + "];\n\n";
+                    estados++;
+                    aux6 = "\"" + (estados ) + "\"" + " -> " + "\"" + (estados - 2) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                   // estados++;
+                    // aux6 = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    //cuerpo += aux;
+                    Console.WriteLine(aux);
+                    Console.WriteLine(aux2);
+                    Console.WriteLine(aux3);
+                    Console.WriteLine(aux4);
+                    Console.WriteLine(aux5);
+                    Console.WriteLine(aux6);
+                    cuerpo += aux;
+                    cuerpo += aux2;
+                    cuerpo += aux3;
+                    cuerpo += aux4;
+                    cuerpo += aux5;
+                    cuerpo += aux6;
+                    Console.WriteLine(cuerpo);
+                    aux = "";
+                    aux2 = "";
+                    aux3 = "";
+                    aux4 = "";
+                    aux5 = "";
+                    aux6 = "";
+                    
+
+                }
+                else if (vector[i].Equals("*"))
+                {
+                    estadoIni = estadoFin;
+                    estadoFin = estadoFin + 3;
+                    Console.WriteLine(estadoIni + " ini" + estadoFin + " fin");
+                    //  estados++;
+                    // aux = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + vector[i + 1] + "\"" + "];\n\n";
+                    aux = "\"" + (estadoIni) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    estados++;
+                    aux2 = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + vector[i + 1] + "\"" + "];\n\n";
+                    estados++;
+                    aux3 = "\"" + (estados) + "\"" + " -> " + "\"" + (estadoFin) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    estados++;
+                    aux4 = "\"" + (estados - 1) + "\"" + " -> " + "\"" + (estados - 2) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    estados++;
+                    aux5 = "\"" + (estadoIni) + "\"" + " -> " + "\"" + (estadoFin) + "\"" + "[label=" + "\"" + vector[i + 2] + "\"" + "];\n\n";
+                    //estados++;
+                    //aux6 = "\"" + (estados) + "\"" + " -> " + "\"" + (estados - 2) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    // estados++;
+                    // aux6 = "\"" + (estados) + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" + "e" + "\"" + "];\n\n";
+                    //cuerpo += aux;
+                    Console.WriteLine(aux);
+                    Console.WriteLine(aux2);
+                    Console.WriteLine(aux3);
+                    Console.WriteLine(aux4);
+                    Console.WriteLine(aux5);
+                    //Console.WriteLine(aux6);
+                    cuerpo += aux;
+                    cuerpo += aux2;
+                    cuerpo += aux3;
+                    cuerpo += aux4;
+                    cuerpo += aux5;
+                   // cuerpo += aux6;
+                    Console.WriteLine(cuerpo);
+                    aux = "";
+                    aux2 = "";
+                    aux3 = "";
+                    aux4 = "";
+                    aux5 = "";
+                   // aux6 = "";
+                }
+            }
+        }
+        public void Analizador3(string texto)
+        {
+            string token = "";
+            int columna = 0;
+            int fila = 1;
+            string palabra = "";
+            string tokenPunto = "";
+            char letra;
+            int contadorPalabra = 0;
+            int comentarioLinea = 0;
+            int comentarioMulti1 = 0;
+            int comentarioMulti2 = 0;
+            int conjunto = 0;
+            int defConjunto = 0;
+            int defConjunto2 = 0;
+            int expresion = 0;
+            int expresion2 = 0;
+            int estado = 0;
+            int cantPunto = 0;
+            int estadoMover = 0;
+            char comillas = '"';
+
+            string exp = "";
+
+            string aux = "";
+            string hijo1 = "";
+            string hijo2 = "";
+
+
+
+
+
+
+            for (estado = 0; estado < texto.Length; estado++)
+            {
+                letra = texto[estado];
+
+                
+
+                switch (estadoMover)
+                {
+                    case 0:
+                        switch (letra)
+                        {
+                            case ' ':
+                            case '\r':
+                            case '\t':
+                            case '\f':
+                                estadoMover = 0;
+                                break;
+                            case '\n':
+                                fila++;
+                                columna = 0;
+                                comentarioLinea = 0;
+                                estadoMover = 0;
+                                break;
+                  
+                            case '.':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            case '|':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            case '*':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            case '+':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            case '?':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+
+                            case '{':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            case '}':
+                                exp += letra;
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            
+                            case ';':
+
+                                token += letra;
+                                estadoMover = 1;
+                                estado = estado - 1;
+                                break;
+                            case '=':
+                                if (tokenPunto.Equals("::"))
+                                {
+                                    tokenPunto = "";
+                                }
+                                else
+                                {
+                                    estadoMover = 8;
+                                    estado = estado - 1;
+                                }
+                                break;
+                            case '"':
+                               // token += letra;
+                                estadoMover = 4;
+                                break;
+                            case '”':
+                                letra = comillas;
+                                //token += letra;
+                                estadoMover = 4;
+                                break;
+                            default:
+                                if (Char.IsNumber(letra))
+                                {
+                                    token += letra;
+                                    estadoMover = 3;
+                                }
+                                else if (Char.IsLetter(letra))
+                                {
+                                    estadoMover = 3;
+                                    estado = estado - 1;
+                                }
+                                else
+                                {
+                                    estadoMover = 8;
+                                    estado = estado - 1;
+                                }
+                                break;
+                        }
+                        break;
+                    case 1:
+
+                         if (token.Equals(";"))
+                        {
+                            //cuerpo = "";
+                            
+                            columna++;
+                            if ((expresion == 1) && (expresion2 == 1))
+                            {
+                                //AnalizarToken(exp, fila, columna, "EXPRESION");
+                                //AnalizarExpresion(exp, fila, columna, "EXPRESION");
+                               // noExp++;
+                                //AnalizarExpresion(noExp, exp, fila, columna, "EXPRESION");
+                                //Console.WriteLine(noExp + exp);
+                            }
+                            AnalizarToken(token, fila, columna, "PUNTO Y COMA");
+                            expresion = 0;
+                            expresion2 = 0;
+                            exp = "";
+                            token = "";
+                            estadoMover = 0;
+                            exp = "";
+                        }//  cuerpo = "\""+ estados+ "\"" + " -> " + "\"" + "."+ "\"" + "[label="+ "\"" + "."+ "\"" + "];";
+
+                        else if (token.Equals("."))
+                        {
+                            vecto.Add(token);
+                            cont++;
+                           // estados++;
+                            //aux = "\""+ estados+ "\"" + " -> " + "\"" + (estados+1)+ "\"" + "[label="+ "\"" + hijo1+ "\""+ "];\n\n";
+                          //  aux = "\"" + estados + "\"" + " -> " + "\"" + (estados + 1) + "\"" + "[label=" + "\"" ;
+
+                           // cuerpo += aux;
+                            
+                           // aux = "";
+                            columna++;
+                           // AnalizarToken(token, fila, columna, "CONCATENACION");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (token.Equals("*"))
+                        {
+                            vecto.Add(token);
+                            cont++;
+                            columna++;
+                           // AnalizarToken(token, fila, columna, "CERRADURA *");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (token.Equals("+"))
+                        {
+                            vecto.Add(token);
+                            cont++;
+                            columna++;
+                            //AnalizarToken(token, fila, columna, "CERRADURA +");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (token.Equals("|"))
+                        {
+                            vecto.Add(token);
+                            cont++;
+                            columna++;
+                            // AnalizarToken(token, fila, columna, "DISYUNCION");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (token.Equals("?"))
+                        {
+                            vecto.Add(token);
+                            cont++;
+                            columna++;
+                            // AnalizarToken(token, fila, columna, "CERRADURA ?");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (token.Equals("{"))
+                        {
+                          //  vecto.Add(token);
+                            cont++;
+                            defConjunto = 0;
+                            conjunto = 1;
+                            columna++;
+                            // AnalizarToken(token, fila, columna, "CORCHETE IZQUIERDO");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (token.Equals("}"))
+                        {
+                          //  vecto.Add(token);
+                            cont++;
+                            conjunto = 0;
+                            columna++;
+                            //  AnalizarToken(token, fila, columna, "CORCHETE DERECHO");
+                            token = "";
+                            estadoMover = 0;
+                        }
+
+                        break;
+                    case 2:
+                        columna++;
+                        vecto.Add(token);
+                        cont++;
+                        //  AnalizarToken(token, fila, columna, "DIGITO");
+                        token = "";
+                        estadoMover = 0;
+                        break;
+                    case 3:
+                        if (Char.IsLetterOrDigit(letra) || Char.IsSymbol(letra) || letra == ' ' || letra == '_' || letra == ',' || letra == '"' || letra == '”')
+                        {
+                            exp += letra;
+                            token += letra;
+                            columna++;
+                        }
+                        else
+                        {
+                            if (token.ToLower().Equals("conj"))
+                            {
+                                palabra = token;
+                                contadorPalabra = 0;
+                            }
+                            else
+                            {
+                                palabra = token;
+                                contadorPalabra = 1;
+                            }
+                            if (contadorPalabra == 0)
+                            {
+                                //   PalabrasReservadas(token, fila, columna, estado);
+                                token = "";
+                                estado = estado - 1;
+                                estadoMover = 0;
+                            }
+                            else if (contadorPalabra == 1)
+                            {
+                                estadoMover = 5;
+                            }
+                            else if (contadorPalabra == 3)
+                            {
+                                estado = estado - 1;
+                                estadoMover = 5;
+                                palabra = "";
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (letra == '”')
+                        {
+                            letra = '"';
+                        }
+                        if (letra != '"')
+                        {
+
+                            token += letra;
+                        }
+                        else if (letra == '"')
+                        {
+                            estado = estado - 1;
+                            estadoMover = 5;
+                        }
+                        break;
+                    case 5:
+                        if (contadorPalabra == 0)
+                        {
+                            vecto.Add(token);
+                            cont++;
+                           // Console.WriteLine("cadena " + token);
+                            columna++;
+                            exp += token;
+                            exp += "\"";
+                            // AnalizarToken(token + "\"", fila, columna, "CADENA");
+
+                            //  Console.WriteLine(token+ "kaska");
+                            token = "";
+                            estadoMover = 0;
+                        }
+                        else if (contadorPalabra == 1)
+                        {
+                             if (conjunto == 1)
+                            {
+
+                                vecto.Add(token);
+                                cont++;
+
+                                contadorPalabra = 0;
+                                // expresion = 0;
+                                conjunto = 0;
+                                token = "";
+                                palabra = "";
+                                estado = estado - 2;
+                                estadoMover = 0;
+
+                            }
+                            
+                            else
+                            {
+                                // AnalizarToken(token, fila, columna, "IDENTIFICADOR");
+                                contadorPalabra = 0;
+                                expresion = 0;
+                                expresion2 = 1;
+                                token = "";
+                                palabra = "";
+                                estado = estado - 2;
+                                estadoMover = 0;
+                            }
+
+                        }
+
+                        break;
+
+                    case 8:
+                        columna++;
+                        //  Errores(token += letra, fila, columna);
+                        contError++;
+                        token = "";
+                        estadoMover = 0;
+                        break;
+
+                }
+            }
+        }
+        public void generaGrafo(string nombre)
+        {
+
+            string exeFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            string replacement = Regex.Replace(nombre, @"\t|\n|\r", "");
+            string bodyGraph = "";
+            System.IO.StreamWriter file = new System.IO.StreamWriter(exeFolder + "\\" + replacement + ".dot");
+            try
+            {
+
+                int cont = 0;
+                bodyGraph += "digraph G{\n"
+                    + "rankdir=LR\n"
+                    + "node[shape=box];\n";
+                cont = contador;
+                nodo n = inicial;
+               // while (cont != 0)
+              //  {
+                    /*  cont--;
+                      if (cont == 0) bodyGraph += "\" " + n.Num + " \";\n\n";
+                      else bodyGraph += "\" " + n.Num + " \" ->";
+                      n = n.primero;*/
+                  //  cuerpo = "\""+ estados+ "\"" + " -> " + "\"" + "."+ "\"" + "[label="+ "\"" + "."+ "\"" + "];";
+                bodyGraph +=cuerpo;
+                //}
+                bodyGraph += "\n\n}\n\n";
+
+
+                file.WriteLine(bodyGraph);
+                file.Close();
+
+                ProcessStartInfo startInfo = new ProcessStartInfo("dot.exe");
+                startInfo.Arguments = "-Tpng " + replacement + ".dot -o " + replacement + ".png";
+                Process.Start(startInfo);
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error grafo: " + e.Message);
+                file.Close();
+                //throw;
+            }
+        }
+
+            public void LlenarExpresion()
+        {
+            string token = "";
+            string tipo = "";
+            int  fila, columna;
+            foreach (Expresiones i in listaExpresion)
+            {
+              //  Console.WriteLine("EXP" + noExp.ToString() + 1 + token + tipo + fila + columna);
+                //Console.WriteLine("EXP" + noExp.ToString(), 1, token, tipo, fila.ToString(), columna.ToString());
+            }
         }
             public void AnalizarToken(string token, int fila, int columna, string tipo)
         {
@@ -705,59 +1308,7 @@ namespace Proyecto1
                 contToken++;
             }
         }
-        private void PalabrasReservadas(string token, int fila, int columna, int inicio)
-        {
-            string nombre = "";
-            bool uno = false;
-            for (int i = 0; i < Reservadas.Length; i++)
-            {
-                nombre = Reservadas[i];
-                if (token.ToLower().Equals(nombre))
-                {
-                    i = Reservadas.Length + 1;
-                    uno = true;
-                }
-            }
-            if (uno == true)
-            {
-                AnalizarToken(token, fila, columna, "RESERVADA");
-            }
-            else if (uno == false)
-            {
-                Errores(token, fila, columna);
-            }
-        }
-        public void obtenerRuta()
-        {
-
-            var ods = new Token();
-            string[] arrayElementos = rutas.ToArray();
-            for (int i = 0; i < contadorRutas; i++)
-            {
-
-
-                char[] caracteres = arrayElementos[i].ToCharArray();
-
-
-                for (int h = 0; h < caracteres.Length; h++)
-                {
-
-
-                    // if (Char.IsLetter(caracteres[h]))
-                    if (caracteres[h] != '"')
-                    {
-                        auxlex += caracteres[h];
-
-                    }
-
-
-                }
-              
-                root.Add(auxlex);
-             
-                auxlex = "";
-            }
-        }
+        
         private void GenerarArbol()
         {
             Tree_View tree = new Tree_View(texto);
@@ -993,8 +1544,7 @@ namespace Proyecto1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Console.WriteLine( "entra");
-            //Console.ReadLine();
+
             listaToken.Clear();
             listaerror.Clear();
             obtenerRuta();
@@ -1036,6 +1586,18 @@ namespace Proyecto1
         {
             Close();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            enviarExpresion();
+            recibeExpresiones();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string edd = "xp";
+                generaGrafo(edd);
+        }
+        }
     }
 
-}

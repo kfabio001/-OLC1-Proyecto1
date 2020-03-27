@@ -1,0 +1,49 @@
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\bin\Debug\Proyecto1.exe.config
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\bin\Debug\Proyecto1.exe
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\bin\Debug\Proyecto1.pdb
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.Form1.resources
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.ListaError.resources
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.ListaTokens.resources
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.Properties.Resources.resources
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.Tree_View.resources
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.csproj.GenerateResource.cache
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.csproj.CoreCompileInputs.cache
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.exe
+C:\Users\franc\Desktop\Proyecto1-master\Proyecto1\obj\Debug\Proyecto1.pdb
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\bin\Debug\Proyecto1.exe.config
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\bin\Debug\Proyecto1.exe
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\bin\Debug\Proyecto1.pdb
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.csprojAssemblyReference.cache
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.Form1.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.ListaError.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.ListaTokens.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.Properties.Resources.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.Tree_View.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.csproj.GenerateResource.cache
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.csproj.CoreCompileInputs.cache
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.exe
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1\Nueva carpeta\Proyecto1LFP\Proyecto1\obj\Debug\Proyecto1.pdb
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\bin\Debug\Proyecto1.exe.config
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\bin\Debug\Proyecto1.exe
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\bin\Debug\Proyecto1.pdb
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.csprojAssemblyReference.cache
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.Form1.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.ListaError.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.ListaTokens.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.Properties.Resources.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.Tree_View.resources
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.csproj.GenerateResource.cache
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.exe
+C:\Users\FABIO SANCHEZ\Desktop\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.pdb
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\bin\Debug\Proyecto1.exe.config
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\bin\Debug\Proyecto1.exe
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\bin\Debug\Proyecto1.pdb
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.csprojAssemblyReference.cache
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.Form1.resources
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.ListaError.resources
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.ListaTokens.resources
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.Properties.Resources.resources
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.Tree_View.resources
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.csproj.GenerateResource.cache
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.exe
+C:\Users\FABIO SANCHEZ\Desktop\Nueva carpeta (3)\Proyecto1LFP - copia (2)\Proyecto1\obj\Debug\Proyecto1.pdb

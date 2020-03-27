@@ -1338,24 +1338,7 @@ namespace Proyecto1
                 Pint(nombre);
             }
         }
-        private void acercaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Nombre: Fabio Andre Sanchez Chavez" + "\n" + "Carnet:    201709075 ", "Acerca de:", MessageBoxButtons.OKCancel, MessageBoxIcon.None);
-        }
         
-
-        private void PintarElementos(string palabra)
-        {
-
-            int inicio = 0;
-            while (inicio < idTexto.Text.LastIndexOf(palabra))
-            {
-                idTexto.Find(palabra, inicio, idTexto.TextLength, RichTextBoxFinds.MatchCase);
-                idTexto.SelectionColor = Color.Black;
-                inicio = idTexto.Text.IndexOf(palabra, inicio) + 1;
-            }
-
-        }
         private void Errores(string token, int fila, int columna)
         {
 
